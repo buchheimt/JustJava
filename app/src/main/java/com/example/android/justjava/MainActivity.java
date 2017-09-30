@@ -10,6 +10,8 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -33,7 +35,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public void submitOrder(View view) {
         int price = calculatePrice();
-        String priceMessage = createOrderMessage(price);
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check_box);
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_check_box);
+        EditText nameView = (EditText) findViewById(R.id.name_view);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+        String name = nameView.getText().toString();
+        String priceMessage = createOrderMessage(price, hasWhippedCream, hasChocolate, name);
         displayMessage(priceMessage);
     }
 
@@ -48,10 +56,16 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Creates a text summary of the order
      * @param price of the order
+     * @param hasWhippedCream is whether or not the user selects whipped cream topping
+     * @param hasChocolate is whether or not the user selects chocolate topping
+     * @param name of the user
      * @return text summary of order
      */
-    private String createOrderMessage(int price) {
-        String priceMessage = "Name: Tyler";
+    private String createOrderMessage(int price, boolean hasWhippedCream, boolean hasChocolate,
+                                      String name) {
+        String priceMessage = "Name: " + name;
+        priceMessage += "\nAdd whipped cream? " + hasWhippedCream;
+        priceMessage += "\nAdd chocolate? " + hasChocolate;
         priceMessage += "\nQuantity: " + quantity;
         priceMessage += "\nTotal: $" + price;
         priceMessage += "\nThank You!";
